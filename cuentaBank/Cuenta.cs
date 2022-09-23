@@ -4,6 +4,10 @@ public class Cuenta
     private int saldo;
     public int Saldo { get => saldo; set => saldo = value; }
 
+    public Cuenta(int saldo) {
+        this.saldo = saldo;
+    }
+
     public virtual int Extraccion(int monto, TipoExtracion tipo)
     {
         return 0;
@@ -17,6 +21,9 @@ public class Cuenta
 
 public class CuentaCorrientePeso : Cuenta
 {
+    public CuentaCorrientePeso(int saldo) : base(saldo) {
+    }
+
      public override int Extraccion(int monto, TipoExtracion tipo) {
         if(Saldo-monto>=-5000 || (tipo == TipoExtracion.CajeroAutomatico && monto > 20000)) {
             Console.WriteLine("No se pudo extraer.");
@@ -29,6 +36,9 @@ public class CuentaCorrientePeso : Cuenta
 
 public class CuentaCorrienteDolar : Cuenta
 {
+    public CuentaCorrienteDolar(int saldo) : base(saldo) {
+    }
+
     public override int Extraccion(int monto, TipoExtracion tipo) {
         monto = (int)(monto / COTIZACION);
         if(monto<Saldo || (tipo == TipoExtracion.CajeroAutomatico && monto > 200)) {
@@ -42,6 +52,9 @@ public class CuentaCorrienteDolar : Cuenta
 
 public class CajaDeAhorro: Cuenta
 {
+    public CajaDeAhorro(int saldo) : base(saldo) {
+    }
+
     public override int Extraccion(int monto, TipoExtracion tipo) {
         if(monto<Saldo || (tipo == TipoExtracion.CajeroAutomatico && monto > 10000)) {
             Console.WriteLine("No se pudo extraer.");
