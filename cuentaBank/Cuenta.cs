@@ -1,30 +1,53 @@
-const double cotizacion = 145.44; //23-09-2022 
-
 public class Cuenta
 {
-    
-    int saldo;
+    protected const double COTIZACION = 145.44; //23-09-2022 
+    private int saldo;
+    public int Saldo { get => saldo; set => saldo = value; }
 
-    int Extracion(int monto, TipoExtracion tipo)
+    public virtual int Extraccion(int monto, TipoExtracion tipo)
     {
         return 0;
     }
 
     void Insercion(int monto)
     {
+        Saldo += monto;
     }
 }
 
 public class CuentaCorrientePeso : Cuenta
 {
-
-
+     public override int Extraccion(int monto, TipoExtracion tipo) {
+        if(Saldo-monto>=-5000 || (tipo == TipoExtracion.CajeroAutomatico && monto > 20000)) {
+            Console.WriteLine("No se pudo extraer.");
+            return 0;
+        }
+        Saldo -= monto;
+        return monto;
+    }
 }
 
 public class CuentaCorrienteDolar : Cuenta
 {
+    public override int Extraccion(int monto, TipoExtracion tipo) {
+        monto = (int)(monto / COTIZACION);
+        if(monto<Saldo || (tipo == TipoExtracion.CajeroAutomatico && monto > 200)) {
+            Console.WriteLine("No se pudo extraer.");
+            return 0;
+        }
+        Saldo -= monto;
+        return monto;
+    }
 }
 
 public class CajaDeAhorro: Cuenta
 {
+    public override int Extraccion(int monto, TipoExtracion tipo) {
+        if(monto<Saldo || (tipo == TipoExtracion.CajeroAutomatico && monto > 10000)) {
+            Console.WriteLine("No se pudo extraer.");
+            return 0;
+        }
+        Saldo -= monto;
+        return monto;
+    }
 }

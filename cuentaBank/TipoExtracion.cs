@@ -1,4 +1,4 @@
-enum TipoExtracion {
+public enum TipoExtracion {
     CajeroHumano = 1,
     CajeroAutomatico = 2
 } 
